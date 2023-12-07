@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-chart ref="chart" class="chart" :option="option" :loading="true" :autoresize="true"
-      :loading-options="option.default" />
+      :loading-options="loadingOptions" />
   </div>
 </template>
 
@@ -21,8 +21,9 @@ import { LineChart, } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart, { LOADING_OPTIONS_KEY } from 'vue-echarts';
-import { ref, provide, onMounted } from 'vue';
-import spinner from './spinner.vue';
+import { ref, onMounted } from 'vue';
+import { createLoadingOptions } from './loadingOptions';
+
 echarts.use([
   TitleComponent,
   ToolboxComponent,
@@ -42,6 +43,7 @@ use([
 ]);
 
 const chart = ref()
+const loadingOptions = createLoadingOptions();
 
 const option = ref({
   title: {
@@ -64,27 +66,7 @@ const option = ref({
       saveAsImage: {}
     }
   },
-  default: {
-    text: "Loading...",
-    color: "#be0000",
-    textColor: "#000000",
-    maskColor: "rgba(255, 255, 255, 0.8)",
-    zlevel: 0,
-    // Font size. Available since `v4.8.0`.
-    fontSize: 16,
-    // Show an animated "spinner" or not. Available since v4.8.0`.
-    showSpinner: true,
-    // Radius of the "spinner". Available since `v4.8.0`.
-    spinnerRadius: 20,
-    // Line width of the "spinner". Available since `v4.8.0`.
-    lineWidth: 4,
-    // Font thick weight. Available since `v5.0.1`.
-    fontWeight: 400,
-    // Font style. Available since `v5.0.1`.
-    fontStyle: "normal",
-    // Font family. Available since `v5.0.1`.
-    fontFamily: "ariana pro",
-  },
+
   xAxis: {
     type: 'category',
     boundaryGap: false,
@@ -128,6 +110,18 @@ const option = ref({
   animationDuration: 2000
 });
 
+const updateLoading = (options: any) => {
+  if (chart.value) {
+    chart.value.showLoading(options);
+  }
+};
+
+onMounted(() => {
+  // Set the ECharts instance to the ref when the chart is ready
+  chart.value = echarts.getInstanceByDom(document.querySelector('.chart')!);
+  // Initial loading
+  updateLoading(loadingOptions.value); // Default loading options
+});
 </script>
 
 <style scoped>
