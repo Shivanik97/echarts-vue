@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <v-chart ref="chart" class="chart" :option="option" :loading="true" :autoresize="true"
-      :loading-options="loadingOptions" />
+  <div id="g">
+    <echart ref="chart" class="chart" :option="option" :loading="true" :loading-options="customComponent"
+      :autoresize="true" />
   </div>
 </template>
 
@@ -20,9 +20,10 @@ import {
 import { LineChart, } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import VChart, { LOADING_OPTIONS_KEY } from 'vue-echarts';
-import { ref, onMounted } from 'vue';
-import { createLoadingOptions } from './loadingOptions';
+import Echart from 'vue-echarts';
+import { ref } from 'vue';
+import { createLoadingOptions, SpinnerSize } from './loadingOptions';
+import customComponent from './customComponent.vue';
 
 echarts.use([
   TitleComponent,
@@ -43,7 +44,8 @@ use([
 ]);
 
 const chart = ref()
-const loadingOptions = createLoadingOptions();
+const loadingOptions = createLoadingOptions(true, true, SpinnerSize.Small);
+const customLoadingOptions = customComponent.customLoadingOptions;
 
 const option = ref({
   title: {
@@ -109,19 +111,25 @@ const option = ref({
   ],
   animationDuration: 2000
 });
+// const updateLoading = (options: any) => {
+//   if (chart.value) {
+//     chart.value.showLoading(options);
+//   }
+// };
 
-const updateLoading = (options: any) => {
-  if (chart.value) {
-    chart.value.showLoading(options);
-  }
-};
-
-onMounted(() => {
-  // Set the ECharts instance to the ref when the chart is ready
-  chart.value = echarts.getInstanceByDom(document.querySelector('.chart')!);
-  // Initial loading
-  updateLoading(loadingOptions.value); // Default loading options
-});
+// onMounted(() => {
+//   // Set the ECharts instance to the ref when the chart is ready
+//   chart.value = echarts.getInstanceByDom(document.querySelector('.chart')!);
+//   // Initial loading
+//   updateLoading(loadingOptions); // Default loading options
+// });
+// this.chartInstance = echarts.init(
+//   document.getElementById("GroupOverviewChart")!
+// );
+// this.chartInstance = echarts.getInstanceByDom(
+//   document.querySelector(".chart")!
+// );
+//this.chartInstance.showLoading(this.loadingOptions);
 </script>
 
 <style scoped>
