@@ -3,14 +3,14 @@
     
   </div>
   <!-- <chart></chart> -->
-  <!-- <customComponent></customComponent> -->
-  <spinner></spinner>
+  <customAlerts></customAlerts>
+  <!-- <spinner></spinner> -->
 </template>
 
 <script setup lang="ts">
 import chart from './components/chart.vue';
-import customComponent from './components/customComponent.vue';
 import spinner from './components/spinner.vue';
+import customAlerts from './components/customAlerts.vue';
 </script>
 
 <style scoped>

@@ -8,7 +8,8 @@ module.exports = {
     extend: {
       colors: {
         'primary': '#be0000',
-        'secondary': '#ffffff'
+        'secondary': '#ffffff',
+        'tertiary': '#e70000'
       },
       backgroundImage: (theme) => ({
         'gradient-primary': `linear-gradient(to right, ${theme('colors.primary')}, ${theme('colors.secondary')})`,

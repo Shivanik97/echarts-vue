@@ -1,6 +1,6 @@
 <template>
   <div id="g">
-    <echart ref="chart" class="chart" :option="option" :loading="true" :loading-options="customComponent"
+    <echart ref="chart" class="chart" :option="option" :loading="true" :loading-options="loadingOptions"
       :autoresize="true" />
   </div>
 </template>
@@ -23,7 +23,6 @@ import { CanvasRenderer } from 'echarts/renderers';
 import Echart from 'vue-echarts';
 import { ref } from 'vue';
 import { createLoadingOptions, SpinnerSize } from './loadingOptions';
-import customComponent from './customComponent.vue';
 
 echarts.use([
   TitleComponent,
@@ -45,7 +44,6 @@ use([
 
 const chart = ref()
 const loadingOptions = createLoadingOptions(true, true, SpinnerSize.Small);
-const customLoadingOptions = customComponent.customLoadingOptions;
 
 const option = ref({
   title: {
@@ -109,27 +107,8 @@ const option = ref({
       data: [820, 932, 901, 934, 1290, 1330, 1320]
     }
   ],
-  animationDuration: 2000
+  animationDuration: 1000
 });
-// const updateLoading = (options: any) => {
-//   if (chart.value) {
-//     chart.value.showLoading(options);
-//   }
-// };
-
-// onMounted(() => {
-//   // Set the ECharts instance to the ref when the chart is ready
-//   chart.value = echarts.getInstanceByDom(document.querySelector('.chart')!);
-//   // Initial loading
-//   updateLoading(loadingOptions); // Default loading options
-// });
-// this.chartInstance = echarts.init(
-//   document.getElementById("GroupOverviewChart")!
-// );
-// this.chartInstance = echarts.getInstanceByDom(
-//   document.querySelector(".chart")!
-// );
-//this.chartInstance.showLoading(this.loadingOptions);
 </script>
 
 <style scoped>
